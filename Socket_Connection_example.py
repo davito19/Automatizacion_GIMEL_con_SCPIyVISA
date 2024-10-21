@@ -68,7 +68,7 @@ try:
     corrientes = deque(maxlen=tiempo_max)
     potencias = deque(maxlen=tiempo_max)
     # Configuración de la gráfica en tiempo real
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8))
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 6))
 
     def actualizar(frame):
         # Medir el voltaje, corriente y potencia
@@ -84,40 +84,41 @@ try:
         corrientes.append(corriente)
         potencias.append(potencia)
 
-        # Limpiar las gráficas anteriores
+        # Limpiar y actualizar las gráficas
         ax1.clear()
-        ax2.clear()
-        ax3.clear()
-
-        # Gráfica de voltaje
-        ax1.plot(tiempos, voltajes, label='Voltaje (V)')
-        ax1.set_xlabel('Tiempo (s)')
-        ax1.set_ylabel('Voltaje (V)')
-        ax1.set_title('Voltaje en función del tiempo')
+        ax1.plot(tiempos, voltajes, label='Voltaje (V)', color='blue')
+        ax1.set_xlabel('Tiempo (s)', fontsize=10)
+        ax1.set_ylabel('Voltaje (V)', fontsize=10)
+        ax1.set_title('Voltaje en función del tiempo', fontsize=12)
         ax1.grid(True)
         ax1.legend()
+        ax1.ticklabel_format(useOffset=False, style='plain')  # Evitar notación científica
 
-        # Gráfica de corriente
+        ax2.clear()
         ax2.plot(tiempos, corrientes, label='Corriente (A)', color='orange')
-        ax2.set_xlabel('Tiempo (s)')
-        ax2.set_ylabel('Corriente (A)')
-        ax2.set_title('Corriente en función del tiempo')
+        ax2.set_xlabel('Tiempo (s)', fontsize=10)
+        ax2.set_ylabel('Corriente (A)', fontsize=10)
+        ax2.set_title('Corriente en función del tiempo', fontsize=12)
         ax2.grid(True)
         ax2.legend()
+        ax2.ticklabel_format(useOffset=False, style='plain')  # Evitar notación científica
 
-        # Gráfica de potencia
+
+        ax3.clear()
         ax3.plot(tiempos, potencias, label='Potencia (W)', color='green')
-        ax3.set_xlabel('Tiempo (s)')
-        ax3.set_ylabel('Potencia (W)')
-        ax3.set_title('Potencia en función del tiempo')
+        ax3.set_xlabel('Tiempo (s)', fontsize=10)
+        ax3.set_ylabel('Potencia (W)', fontsize=10)
+        ax3.set_title('Potencia en función del tiempo', fontsize=12)
         ax3.grid(True)
         ax3.legend()
+        ax3.ticklabel_format(useOffset=False, style='plain')  # Evitar notación científica
+
+        plt.tight_layout()
 
     # Crear la animación
     ani = animation.FuncAnimation(fig, actualizar, interval=500, blit=False, save_count=60)
 
     # Mostrar la gráfica y detener la ejecución cuando se cierre la ventana
-    plt.tight_layout()
     plt.show()
 
     # Apagar la salida después de cerrar la ventana
