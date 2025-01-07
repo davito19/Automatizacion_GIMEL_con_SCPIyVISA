@@ -135,6 +135,26 @@ class IT7900Controller:
     def capture_single(self):
         """Captura un solo evento."""
         self.send_command("SCOP:SING")
+    
+    def measure_instantaneous_voltage(self):
+        """Obtiene los valores de voltaje instantáneo usando el osciloscopio."""
+        try:
+            self.start_scope()  # Inicia el osciloscopio
+            waveform_data = self.query("SCOP:WAV:DATA?")
+            self.stop_scope()   # Detiene el osciloscopio
+            if waveform_data:
+                # Convierte los datos en una lista de puntos numéricos
+                data_points = [float(x) for x in waveform_data.split(',')]
+                return data_points
+            else:
+                print("No se recibieron datos de la forma de onda.")
+                return None
+        except Exception as e:
+            print(f"Error al medir el voltaje instantáneo: {e}")
+            return None
+
+    
+    
 
 # Ejemplo de Uso
 if __name__ == "__main__":
