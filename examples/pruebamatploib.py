@@ -1,14 +1,21 @@
 import collections
 import tkinter as tk
-from matplotlib import pyplot as plt, animation
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from tkinter import font as tkFont
 import numpy as np
 
 
-class AppGraphUI:
-    def __init__(self, main_panel: tk.Frame):
+
+class VentanaSeñales(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.parent = parent
         plt.style.use('dark_background')
-        self.frame_graficas = main_panel
+        self.frame_graficas = tk.Frame(self, bg="#6E6E6E")
         self._figure_1, self._ax1 = plt.subplots()
         self._figure_1_canvas = FigureCanvasTkAgg(
             self._figure_1, master=self.frame_graficas
@@ -39,28 +46,33 @@ class AppGraphUI:
             sticky="nsew"
             )
 
+
+        self.frame_botones = tk.Frame(self, bg="#151515")
         self.btn_iniciar = tk.Button(
-            self.frame_graficas, bg="#7401DF", fg="#FFBF00",
+            self.frame_botones, bg="#7401DF", fg="#FFBF00",
             activebackground="#8258FA", font=('Courier', 16),
             text="Iniciar", command=self.iniciar_animación
             )
         self.btn_pausar = tk.Button(
-            self.frame_graficas, bg="#7401DF", fg="#FFBF00",
+            self.frame_botones, bg="#7401DF", fg="#FFBF00",
             activebackground="#8258FA", font=('Courier', 16),
             text="  Pausa  ", command=self.pausar_animación, state=tk.DISABLED
             )
-        # Usar grid para los botones
-        self.btn_iniciar.grid(
-            row=1, column=0, padx=(10, 10), pady=(10, 10), sticky="nsew"
-        )
-        self.btn_pausar.grid(
-            row=1, column=2, padx=(10, 10), pady=(10, 10), sticky="nsew"
-        )
+        self.btn_iniciar.pack(
+            side="left", padx=(100, 100), pady=(100, 100),
+            fill="y", expand=True
+            )
+        self.btn_pausar.pack(
+            side="left", padx=(100, 100), pady=(100, 100),
+            fill="y", expand=True
+            )
 
         self._anim1 = None
         self._anim2 = None
         self._anim3 = None
 
+        self.frame_graficas.pack(fill="both", expand=True)
+        self.frame_botones.pack(fill="x")
         self._init_axes()
 
     def _init_axes(self):
@@ -165,3 +177,10 @@ class AppGraphUI:
             self._anim2.event_source.start()
             self._anim3.event_source.start()
             self.btn_pausar.configure(text="  Pausa  ")
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    VentanaSeñales(root).pack(side="top", fill="both", expand=True)
+    root.mainloop()
