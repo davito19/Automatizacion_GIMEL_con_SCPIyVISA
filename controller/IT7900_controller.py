@@ -16,6 +16,7 @@ class IT7900Controller:
             print(f"Conectado a {self.resource_name}")
         except Exception as e:
             print(f"Error al conectar al dispositivo: {e}")
+            raise(e)
 
     def disconnect(self):
         """Cierra la conexión con el emulador."""

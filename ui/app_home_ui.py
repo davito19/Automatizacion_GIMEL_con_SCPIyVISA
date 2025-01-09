@@ -10,6 +10,9 @@ import utils.util_images as util_img
 import utils.util_windows as util_window
 from ui.app_emulator_ui import AppEmulatorUI
 from ui.app_graph_ui import AppGraphUI
+from ui.app_it7900_ui import IT7900App
+from ui.app_it8600_ui import IT8600App
+from ui.app_it6000C_ui import IT6000CApp
 
 
 # Const
@@ -94,10 +97,10 @@ class AppHomeUi(tk.Tk):
         menu_height = 2
         font_awesome = font.Font(family="FontAwesome", size=15)
         button_info = [
-            ("Emuladores", "\uf109", self.open_graph_panel),
-            ("Script", "\uf007", self.open_under_construction_panel),
-            ("Conectar", "\uf03e", self.open_under_construction_panel),
-            ("Ayuda", "\uf129", self.open_info_panel),
+            ("Emulador AC\n IT7900", "\uf109", self.open_IT7900_panel),
+            ("Emulador DC\n IT7900", "\uf007", self.open_IT6000C_panel),
+            ("Emulador Carga\n IT8600", "\uf03e", self.open_IT8600_panel),
+            ("Ayuda", "\uf129", self.open_under_construction_panel),
             ("Configuración", "\uf013", self.open_under_construction_panel),
         ]
 
@@ -139,22 +142,30 @@ class AppHomeUi(tk.Tk):
         if self.sidebar.winfo_ismapped():
             self.sidebar.pack_forget()
         else:
-            self.sidebar.pack(side=tk.LEFT, fill="y")
+            #self.sidebar.pack(side=tk.LEFT, fill="y")
+            self.sidebar.pack(side=tk.LEFT, fill="both", expand=False)
 
     
-    def open_graph_panel(self):
+    def open_IT7900_panel(self):
         """Open the graph panel."""
         self.clear_panel(self.main_body)
-        AppGraphUI(self.main_body)
+        IT7900App(self.main_body)
+        
+    def open_IT6000C_panel(self):
+        """Open the graph panel."""
+        self.clear_panel(self.main_body)
+        IT6000CApp(self.main_body)
+        
 
     def open_under_construction_panel(self):
         """Open the under construction panel."""
         self.clear_panel(self.main_body)
-        AppEmulatorUI()
+        AppGraphUI(self.main_body)
 
-    def open_info_panel(self):
+    def open_IT8600_panel(self):
         """Open the information panel."""
-        AppEmulatorUI()
+        self.clear_panel(self.main_body)
+        IT8600App(self.main_body)
 
     def clear_panel(self, panel):
         """Clear the content of a given panel."""
