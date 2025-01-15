@@ -44,6 +44,7 @@ class IT7900Controller:
     # Funciones Básicas
     def set_output_mode(self, mode="AC"):
         """Configura el modo de salida: AC, DC, ACDC."""
+        self.set_phase_mode("ONE")
         self.send_command(f"FUNC {mode}")
 
     def set_phase_mode(self, mode="ONE"):
@@ -140,19 +141,19 @@ class IT7900Controller:
     def measure_instantaneous_voltage(self):
         """Obtiene los valores de voltaje instantáneo usando el osciloscopio."""
         try:
-            self.start_scope()  # Inicia el osciloscopio
+            #self.start_scope()  # Inicia el osciloscopio
             waveform_data = self.query("SCOP:WAV:DATA?")
-            self.stop_scope()   # Detiene el osciloscopio
+            #self.stop_scope()   # Detiene el osciloscopio
             if waveform_data:
                 # Convierte los datos en una lista de puntos numéricos
                 data_points = [float(x) for x in waveform_data.split(',')]
                 return data_points
             else:
                 print("No se recibieron datos de la forma de onda.")
-                return None
+                return []
         except Exception as e:
             print(f"Error al medir el voltaje instantáneo: {e}")
-            return None
+            return []
 
     
     
